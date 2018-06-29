@@ -1,3 +1,5 @@
+package pool
+
 type Pool struct {
 	Queue         chan func() error
 	RuntineNumber int
