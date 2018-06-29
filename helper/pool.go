@@ -1,4 +1,6 @@
-package pool
+package helper
+
+import "fmt"
 
 type Pool struct {
 	Queue         chan func() error
@@ -9,7 +11,7 @@ type Pool struct {
 	FinishCallback func()
 }
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 func (self *Pool) Init(runtineNumber int, total int) {
 	self.RuntineNumber = runtineNumber
 	self.Total = total
@@ -18,7 +20,7 @@ func (self *Pool) Init(runtineNumber int, total int) {
 }
 
 func (self *Pool) Start() {
-	//¿ªÆô number ¸ögoruntine
+	//å¼€å¯ number ä¸ªgoruntine
 	for i := 0; i < self.RuntineNumber; i++ {
 		go func() {
 			for {
@@ -32,7 +34,7 @@ func (self *Pool) Start() {
 		}()
 	}
 
-	//»ñÈ¡Ã¿¸öÈÎÎñµÄ´¦Àí½á¹û
+	//è·å–æ¯ä¸ªä»»åŠ¡çš„å¤„ç†ç»“æœ
 	for j := 0; j < self.RuntineNumber; j++ {
 		res, ok := <-self.Result
 		if !ok {
@@ -43,13 +45,13 @@ func (self *Pool) Start() {
 		}
 	}
 
-	//½áÊø»Øµ÷º¯Êı
+	//ç»“æŸå›è°ƒå‡½æ•°
 	if self.FinishCallback != nil {
 		self.FinishCallback()
 	}
 }
 
-//¹Ø±Õ
+//å…³é—­
 func (self *Pool) Stop() {
 	close(self.Queue)
 	close(self.Result)
