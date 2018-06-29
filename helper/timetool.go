@@ -11,7 +11,7 @@ func MakeTimeToDate(timestamp int64) string {
 //将日期转化为 时间戳
 func MakeDateToTime(dateStr string) int64 {
 	t, _ := time.Parse("20060102", dateStr)
-	timeStamp := t.Unix()
+	timeStamp := t.Unix() - 8*3600
 	return timeStamp
 }
 
